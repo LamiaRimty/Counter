@@ -3,18 +3,17 @@ import React, { Component } from 'react';
 
 class Counter extends Component {
     state = {     
-        count:0,
-        tags:["tag1","tag2","tag3"]   
+       count:this.props.counter.value,
+        // tags:[]   
      };
-
-    //  constructor(){
-    //     super();
-    //    this.handleIncrement.bind=this.handleIncrement(this);
-    //  }
-
+   
+          
+     handleIncrement=()=>{
+        this.setState({count:this.state.count+1});
+     };
     changeCount(){
         const { count} =this.state; //destructring the property ,storing it in a separate const count 
-        return count === 0 ? 0 :count ;
+        return count === 0 ? "Zero" :count ;
     }
     getBadgeclasses() {
         let countClass = "badge m-2 bg-";
@@ -22,25 +21,30 @@ class Counter extends Component {
         return countClass;
     }
 
-
-    handleIncrement=(product)=>{
-        console.log(product);
-       this.setState({count: this.state.count+1});
-    };
-    render() { 
+    doHundleIncrement=()=>{
+      this.handleIncrement({id:this.state.count});
+     }
+    render() {         
   return ( 
-  <div>
+       <div>
+                 <h4>Counter {this.props.counter.id}</h4>
                  <span className={this.getBadgeclasses()} >{this.changeCount()}</span>
                  <button 
-                 onClick={()=> this.handleIncrement(product)}
-                className="btn btn-secondary btn-sm"
+                 onClick={this.doHundleIncrement}
+                className="btn btn-secondary btn-sm m-2"
                 >Increment
                 </button>
-             <ul>
+
+                <button 
+                onClick={()=> this.props.onDelete(this.props.counter.id)}
+                className='btn btn-danger btn-sm m-2'
+                
+                >Delete</button>
+             {/* <ul>
                 { this.state.tags.map((tag)=> 
                     <li key={tag.id}  >{tag}</li>
                  ) }
-             </ul>
+             </ul> */}
              </div>
             );
     }
